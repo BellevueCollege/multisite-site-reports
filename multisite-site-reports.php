@@ -1,14 +1,16 @@
 <?php
-/*
-Plugin Name: Multisite Site Reports
-Description: List site options by site to allow for easy migration to Gutenberg
-Plugin URI: https://github.com/BellevueCollege/multisite-site-reports
-Author: Taija Tevia-Clark
-Version: 0.0.0-dev1
-Author URI: https://www.bellevuecollege.edu
-GitHub Plugin URI: BellevueCollege/multisite-site-reports
-Text Domain: bcmsr
-*/
+/**
+ * Plugin Name: Multisite Site Reports
+ * Description: List site options by site to allow for easy migration to Gutenberg
+ * Plugin URI: https://github.com/BellevueCollege/multisite-site-reports
+ * Author: Taija Tevia-Clark
+ * Version: 0.0.0-dev1
+ * Author URI: https://www.bellevuecollege.edu
+ * GitHub Plugin URI: BellevueCollege/multisite-site-reports
+ * Text Domain: bcmsr
+ *
+ * @package bcmsr
+ */
 
 /**
  * Based on the following sources:
@@ -17,23 +19,34 @@ Text Domain: bcmsr
  * Sorting arrays of objects:    http://www.the-art-of-web.com/php/sortarray/
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
-include( 'classes/Admin_Interface.php' );
-include( 'classes/User_List.php' );
-include( 'classes/Site_List.php' );
-include( 'classes/User.php' );
-include( 'classes/Site.php' );
-
-add_action( 'wp_loaded', array ( MUBR_Admin_Interface::get_instance(), 'register' ) );
-
-function MUBR_enqueue_admin_scripts() {
-    global $pagenow; 
-    if ( ( 'users.php' === $pagenow ) && ( 'multisite_users_selected_role' === $_GET['page'] ) ) {
-        //checks if page is /users.php?page=multisite_users_selected_role 
-        wp_enqueue_style( 'multisite_users_by_role_style', plugin_dir_url( __FILE__ ) . 'css/mubr.css', array('mayflower_dashboard'), '1.0.0' );
-        wp_enqueue_script( 'multisite_users_by_role_script', plugin_dir_url( __FILE__ ) . 'js/mubr-script.js', '1.0.0' );
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
 }
 
-add_action( 'admin_enqueue_scripts', 'MUBR_enqueue_admin_scripts');
+/**
+ * Require Classes
+ */
+require_once 'classes/class-bcmsr-admin-interface.php';
+require_once 'classes/class-bcmsr-site-list.php';
+require_once 'classes/class-bcmsr-site.php';
+
+/**
+ * Enqueue Admin Scripts
+ */
+function bcmsr_enqueue_admin_scripts() {
+	global $pagenow;
+	if ( 'admin.php' === $pagenow && ( 'bcmsr' === $_GET['page'] ) ) {
+		// checks if page is /users.php?page=multisite_users_selected_role.
+
+		wp_enqueue_style( 'multisite_users_by_role_style', plugin_dir_url( __FILE__ ) . 'css/mubr.css', array( 'mayflower_dashboard' ), '1.0.0' );
+		wp_enqueue_script( 'stupidtable', plugin_dir_url( __FILE__ ) . 'js/stupidtable.min.js', array( 'jquery' ), '1.1.3', true );
+		wp_add_inline_script( 'stupidtable', 'jQuery("table.bcmsr-table").stupidtable();' );
+
+	}
+}
+add_action( 'admin_enqueue_scripts', 'bcmsr_enqueue_admin_scripts' );
+
+/**
+ * Initiate Classes
+ */
+add_action( 'wp_loaded', array( BCMSR_Admin_Interface::get_instance(), 'register' ) );
