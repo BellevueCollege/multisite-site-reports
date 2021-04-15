@@ -4,7 +4,7 @@
  * Description: List site options by site to allow for easy migration to Gutenberg
  * Plugin URI: https://github.com/BellevueCollege/multisite-site-reports
  * Author: Taija Tevia-Clark
- * Version: 0.0.0-dev1
+ * Version: 1.1
  * Author URI: https://www.bellevuecollege.edu
  * GitHub Plugin URI: BellevueCollege/multisite-site-reports
  * Text Domain: bcmsr

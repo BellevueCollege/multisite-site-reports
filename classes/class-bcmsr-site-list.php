@@ -31,6 +31,7 @@ class BCMSR_Site_List {
 					<th data-sort="string">Site</th>
 					<th data-sort="string">Block Editor</th>
 					<th data-sort="string">Optional</th>
+					<th data-sort="string">Branded</th>
 					<th data-sort="string">Theme</th>
 				</tr>
 			</thead>
@@ -39,6 +40,7 @@ class BCMSR_Site_List {
 					<th>Site</th>
 					<th>Block Editor</th>
 					<th>Optional</th>
+					<th>Branded</th>
 					<th>Theme</th>
 				</tr>
 			</tfoot>
@@ -51,6 +53,8 @@ class BCMSR_Site_List {
 			$output .= $site->checkmark( $site->block_editor() );
 			$output .= '</td><td>';
 			$output .= $site->checkmark( $site->block_editor_switch() );
+			$output .= '</td><td>';
+			$output .= $site->checkmark( $site->branded() );
 			$output .= '</td><td>';
 			$output .= $site->theme_info();
 			$output .= '</td>';
@@ -87,6 +91,11 @@ class BCMSR_Site_List {
 				switch_to_blog( $blog_id );
 				$block_editor        = 'block' === get_option( 'classic-editor-replace' ) ? true : false;
 				$block_editor_switch = 'allow' === get_option( 'classic-editor-allow-users' ) ? true : false;
+				if ( function_exists( 'mayflower_get_options' ) ) {
+					$branded         = mayflower_get_option( 'mayflower_brand' ) === 'branded' ? true : false;
+				} else {
+					$branded         = false;
+				}
 				$theme               = wp_get_theme();
 				$theme_name          = $theme->get( 'Name' );
 				$theme_version       = $theme->get( 'Version' );
@@ -97,6 +106,7 @@ class BCMSR_Site_List {
 					$info->siteurl,
 					$block_editor,
 					$block_editor_switch,
+					$branded,
 					$theme_name,
 					$theme_version
 				);

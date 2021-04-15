@@ -18,12 +18,14 @@ class BCMSR_Site {
 	protected $url;
 	protected $block_editor;
 	protected $block_editor_switch;
+	protected $branded;
 
-	public function __construct( $name, $url, $block_editor, $block_editor_switch, $theme_name, $theme_version ) {
+	public function __construct( $name, $url, $block_editor, $block_editor_switch, $branded, $theme_name, $theme_version ) {
 		$this->name                = $name;
 		$this->url                 = $url;
 		$this->block_editor        = $block_editor;
 		$this->block_editor_switch = $block_editor_switch;
+		$this->branded             = $branded;
 		$this->theme_name          = $theme_name;
 		$this->theme_version       = $theme_version;
 	}
@@ -50,6 +52,10 @@ class BCMSR_Site {
 
 	public function block_editor_switch() {
 		return $this->block_editor_switch;
+	}
+
+	public function branded() {
+		return $this->branded;
 	}
 
 	public function theme_info() {
