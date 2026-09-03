@@ -25,8 +25,8 @@ extends:
   template: templates/release/plugin-release.yml@templates
   parameters:
 
-    pluginName: 'mutlisite-site-reports'
-    githubRepo: 'mutlisite-site-reports'
+    pluginName: 'multisite-site-reports'
+    githubRepo: 'multisite-site-reports'
 
     productionEnvironments:
       - name: KinstaProd
