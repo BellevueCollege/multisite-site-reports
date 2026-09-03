@@ -33,7 +33,7 @@ extends:
   template: templates/ci/plugin-ci.yml@templates
   parameters:
 
-    pluginName: 'mutlisite-site-reports'
+    pluginName: 'multisite-site-reports'
 
     testEnvironments:
       - name: KinstaCstage
