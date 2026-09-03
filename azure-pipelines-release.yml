@@ -1,0 +1,36 @@
+# ============================================================
+# EXAMPLE: azure-pipelines-release.yml for a WordPress plugin repo
+# Copy to your plugin repo root and fill in the values below.
+# ============================================================
+
+trigger: none
+pr: none
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: BellevueCollege/bc-wordpress-devops-templates
+      endpoint: github-service-connection
+
+  pipelines:
+    - pipeline: ci
+      source: 'multisite-site-reports'
+      trigger:
+        branches:
+          include:
+            - 'refs/tags/v*'
+
+extends:
+  template: templates/release/plugin-release.yml@templates
+  parameters:
+
+    pluginName: 'mutlisite-site-reports'
+    githubRepo: 'mutlisite-site-reports'
+
+    productionEnvironments:
+      - name: KinstaProd
+        displayName: 'Kinsta: Production'
+        environment: kinsta-wwwbellevuecollegeedu
+        sshServiceConnection: 'wwwbellevuecollegeedu'
+        variableGroup: kinsta-wwwbellevuecollegeedu
